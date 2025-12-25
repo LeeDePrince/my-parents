@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Merry Christmas Mum & Dad 🎄</title>
+
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: "Gabriola", serif;
+  color: white;
+  background: black;
+  text-align: center;
+}
+
+/* Backgrounds */
+.bg {
+  position: fixed;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 2s ease;
+  z-index: 1;
+}
+
+#bgGift {
+  background-image: url("gift.jpg");
+}
+
+#bgParents {
+  background-image: url("parents.jpg");
+}
+
+.bg.active {
+  opacity: 1;
+}
+
+/* Overlay */
+#overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 2;
+}
+
+/* Content */
+#content {
+  position: relative;
+  z-index: 5;
+  margin: 10vh auto;
+  max-width: 900px;
+  padding: 20px;
+}
+
+#msg {
+  font-size: 1.6em;
+  line-height: 1.5;
+  white-space: pre-line;
+  text-shadow: 2px 2px 8px black;
+}
+
+/* Button */
+button {
+  margin-top: 25px;
+  padding: 15px 30px;
+  font-size: 1.1em;
+  background: crimson;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Snow */
+.snow {
+  position: fixed;
+  top: -20px;
+  color: white;
+  font-size: 14px;
+  animation: fall linear infinite;
+  z-index: 6;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUNDS -->
+<div id="bgGift" class="bg active"></div>
+<div id="bgParents" class="bg"></div>
+<div id="overlay"></div>
+
+<!-- CONTENT -->
+<div id="content">
+  <p id="msg">Tap the gift 🎁</p>
+  <button id="giftBtn" onclick="startGift()">Open Gift 🎄</button>
+</div>
+
+<!-- MUSIC -->
+<audio id="music" loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const bgGift = document.getElementById("bgGift");
+const bgParents = document.getElementById("bgParents");
+const msg = document.getElementById("msg");
+const btn = document.getElementById("giftBtn");
+const music = document.getElementById("music");
+
+/* Snow */
+function snow(count = 40) {
+  for (let i = 0; i < count; i++) {
+    let s = document.createElement("div");
+    s.className = "snow";
+    s.innerText = "❄";
+    s.style.left = Math.random() * 100 + "vw";
+    s.style.fontSize = (10 + Math.random() * 10) + "px";
+    s.style.animationDuration = (5 + Math.random() * 5) + "s";
+    document.body.appendChild(s);
+  }
+}
+
+snow();
+
+function startGift() {
+  btn.disabled = true;
+
+  music.volume = 0.7;
+  music.play().catch(() => {
+    document.addEventListener("click", () => music.play(), { once: true });
+  });
+
+  bgGift.classList.remove("active");
+  bgParents.classList.add("active");
+
+  setTimeout(() => {
+    msg.innerText =
+`A heartfelt Christmas gift
+from your sons 🎁`;
+  }, 1500);
+
+  setTimeout(() => {
+    msg.innerText =
+`Dear Mum and Dad,
+
+This Christmas, we want to thank you for the life you built for us.
+For the home you created with love, discipline, and sacrifice.
+For the days you stayed strong so we could feel safe,
+and the nights you carried worries so we could sleep peacefully.
+
+You taught us responsibility before we understood it,
+the value of hard work before we earned our own money,
+and the importance of respect, patience, and faith.
+
+You carried responsibilities so we could carry dreams.
+You worked, prayed, and endured quietly
+so we could have a better path and a brighter future.
+
+Everything good we are becoming carries your guidance.
+Your lessons walk with us, your prayers protect us,
+and your love remains our foundation.
+
+We may not always say it,
+but we honour you and we are deeply grateful.
+
+We love you, Mum and Dad.
+We are proud to be your children.
+
+Merry Christmas Mum and Dad 🎄
+May God bless you and keep you always.`;
+    
+    btn.disabled = false;
+    btn.innerText = "Read Again ✨";
+  }, 3500);
+}
+</script>
+
+</body>
+</html>
